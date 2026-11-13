@@ -1,0 +1,52 @@
+#include <iostream>
+#include <cstring>
+#include <cctype>
+
+using namespace std;
+
+int main() {
+    // تعيين اللغة لدعم الحروف الروسية في وحدة التحكم
+    setlocale(LC_ALL, "Russian");
+    
+    const int MAX_LEN = 256;
+    char s[MAX_LEN];
+
+    cout << "Введите строку (не более 255 символов, в конце точка): " << endl;
+    cin.getline(s, MAX_LEN);
+
+    int len = strlen(s);
+
+    // Удаляем завершающую точку, если она присутствует
+    if (len > 0 && s[len - 1] == '.') {
+        s[len - 1] = '\0';
+        len--;
+    }
+
+    // Формируем очищенную строку без пробелов и приводим к нижнему регистру
+    char clean_s[MAX_LEN];
+    int k = 0;
+    for (int i = 0; i < len; i++) {
+        if (s[i] != ' ') {
+            clean_s[k++] = tolower((unsigned char)s[i]);
+        }
+    }
+    clean_s[k] = '\0';
+
+    // Проверка на палиндром
+    bool isPalindrome = true;
+    for (int i = 0; i < k / 2; i++) {
+        if (clean_s[i] != clean_s[k - 1 - i]) {
+            isPalindrome = false;
+            break;
+        }
+    }
+
+    cout << "\nИсходная строка: " << s << endl;
+    if (isPalindrome && k > 0) {
+        cout << "Результат: Введенная строка ЯВЛЯЕТСЯ палиндромом." << endl;
+    } else {
+        cout << "Результат: Введенная строка НЕ ЯВЛЯЕТСЯ палиндромом." << endl;
+    }
+
+    return 0;
+}
